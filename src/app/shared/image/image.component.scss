@@ -1,0 +1,11 @@
+.my-drop-zone { border: dotted 3px lightgray; height: 50px; text-align: center;}
+/* Default class applied to drop zones on over */
+.invalid-drag { border: dotted 3px rgb(252, 94, 94); }
+.valid-drag { border: dotted 3px green; }
+html, body { height: 100%; }
+.center{
+    text-align: center;
+}
+.left{
+    text-align: left;
+}

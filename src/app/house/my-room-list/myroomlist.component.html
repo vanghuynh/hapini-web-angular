@@ -1,0 +1,58 @@
+<div class="container">
+    <mat-card *ngFor="let room of rooms">
+      <mat-card-header>
+        <img mat-card-avatar src="{{room.avatar}}" alt="avatar image">
+        <mat-card-title>ID {{room.id}}: {{room.name}}</mat-card-title>
+        <mat-card-subtitle><span>{{room.price}}</span><span translate> room.priceUnit</span></mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <slideshow mat-card-image #slideshow [imageUrls]="room.imageUrls"
+        [height]="'200px'" [minHeight]="'100px'"
+        [autoPlay]="true" [showDots]="true"
+        [showArrows]="true" [fullscreen]="false"></slideshow>
+        <div fxLayout="column" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayoutGap="10px">
+          <div *ngIf="room.available && room.status && room.status == 'APPROVE'; then thenBlock else elseBlock" ></div>
+          <ng-template #thenBlock><div fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons md-light">check_circle</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>room.approved</span></div></ng-template>
+          <ng-template #elseBlock><div fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons">remove_circle</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>room.pending</span></div></ng-template>
+          
+          <div fxLayout="row" *ngIf="room.available; then thenAvailable else elseUnavailable"></div>
+          <ng-template #thenAvailable><div fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons md-light">public</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>room.public</span></div></ng-template>
+          <ng-template #elseUnavailable><div fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons">https</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>room.private</span></div></ng-template>
+          </div>
+          <div fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons">description</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>room.description</span></div>
+          <div class="multiline">{{ room.description }}</div>
+          <div fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons">speaker_notes</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>room.note</span></div>
+          <div class="multiline">{{ room.note }}</div>
+          <div fxLayout="row wrap" fxLayoutGap="10px">
+            <div fxLayout="row" *ngIf="room.toilet && room.toilet == 'S'; then thenShare else elsePrivate"></div>
+            <ng-template #thenShare><div fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons">public</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>room.toiletShare</span></div></ng-template>
+            <ng-template #elsePrivate><div fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons">https</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>room.toiletPrivate</span></div></ng-template>
+
+            
+            <div *ngIf="room.sex && room.sex == 'M'" fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons">https</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>room.male</span></div>
+            <div *ngIf="room.sex && room.sex == 'F'" fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons">https</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>room.female</span></div>
+            <div *ngIf="room.sex && room.sex == 'B'" fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons">https</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>room.maleorfemale</span></div>
+          </div>
+
+          <div fxLayout="row wrap" fxLayoutGap="10px">
+            <div fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons">crop_square</mat-icon><div ngClass.gt-sm="md-36" class="icon-text"><span>{{ room.area }}</span><span translate>room.square</span></div></div>
+            <div fxLayout="row"><mat-icon ngClass.gt-sm="md-36" class="material-icons">supervisor_account</mat-icon><div ngClass.gt-sm="md-36" class="icon-text"><span>{{ room.maxNumber }} </span><span translate>room.maxNumber</span></div></div>
+          </div>
+          <div *ngIf="room.lastUpdate"><mat-icon ngClass.gt-sm="md-36" class="material-icons">update</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>house.postedOn</span><span ngClass.gt-sm="md-36" class="icon-text-np"> {{ room.lastUpdate | date:'dd/MM/yyyy' }}</span></div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="action-center">
+        <button mat-button (click)="editRoom(room)">EDIT</button>
+        <button mat-button (click)="deleteRoom(room)">DELETE</button>
+        <button *ngIf="!room.available" mat-raised-button color="primary" (click)="enableRoom(room)"><span translate>common.enable</span></button>
+        <button *ngIf="room.available" mat-raised-button color="primary" (click)="disableRoom(room)"><span translate>common.disable</span></button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card>
+      <mat-card-actions class="action-center">
+        <button mat-button (click)="addRoom()"><span translate>common.addRoom</span></button>
+      </mat-card-actions>
+    </mat-card>
+</div>

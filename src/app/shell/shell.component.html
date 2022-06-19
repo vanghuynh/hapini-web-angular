@@ -1,0 +1,227 @@
+<div fxFlex>
+  <mat-sidenav-container fxFill>
+    <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="false" [disableClose]="!isMobile"
+                 ngClass.gt-sm="has-border">
+      <mat-toolbar color="primary">
+        <h3><a class="header-title link-no-underline" href="#"><span translate>APP_NAME</span></a></h3>
+        <!-- <span translate>APP_NAME</span> -->
+        <div fxFlex>
+        </div>
+        <div>
+          <button mat-icon-button [matMenuTriggerFor]="userMenu" translate>
+            <mat-icon>person</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <mat-list>
+              <mat-list-item *ngIf="isLogin">
+                <button mat-menu-item translate>Logged in as <b>{{username}}</b></button>
+              </mat-list-item>
+              <mat-list-item *ngIf="isLogin">
+                <button mat-menu-item (click)="logout()" translate>Logout</button>
+              </mat-list-item>
+              <mat-list-item *ngIf="!isLogin">
+                <button mat-menu-item (click)="login()" translate>Login</button>
+              </mat-list-item>
+            </mat-list>
+          </mat-menu>
+        </div>
+        <div>
+          <button mat-icon-button [matMenuTriggerFor]="languageMenu">
+            <mat-icon>language</mat-icon>
+            <div *ngIf="currentLang && currentLang == 'en-US'; then thenUS else elseVN" ></div>
+          <ng-template #thenUS><span translate>EN</span></ng-template>
+          <ng-template #elseVN><span translate>VI</span></ng-template>
+
+            <span *ngIf="">room.square</span>
+          </button>
+          <mat-menu #languageMenu="matMenu">
+            <button mat-menu-item *ngFor="let language of languages" (click)="setLanguage(language)">
+              {{language}}
+            </button>
+          </mat-menu>
+        </div>
+      </mat-toolbar>
+      <nav>
+        <mat-list>
+          <!-- <div>
+          <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/home" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span translate>Home</span>
+          </a>
+          </div> -->
+          
+          <div>
+          <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/houses" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span translate>House Search</span>
+          </a>
+          </div>
+          <div *ngIf="isLogin">
+          <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/houses/myhouses" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span translate>My Houses</span>
+          </a>
+          </div>
+          <div *ngIf="isLogin">
+          <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/usersetting" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span translate>User Setting</span>
+          </a>
+          </div>
+          <div *ngIf="isAdmin" >
+          <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/admin-house" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span translate>Admin Houses</span>
+          </a>
+          </div>
+          <div *ngIf="isAdmin">
+          <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/admin-room" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span translate>Admin Rooms</span>
+          </a>
+          </div>
+          <div>
+            <mat-divider></mat-divider>
+            <a mat-list-item routerLink="/about" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+              <span translate>About</span>
+            </a>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-list>
+      </nav>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary" class="mat-elevation-z6">
+        <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <button *ngIf="canBack" class="back-button" mat-icon-button (click)="back()"><mat-icon class="material-icons">keyboard_arrow_left</mat-icon></button>
+        <span>{{title}}</span>
+        <span class="fill-remaining-space"></span>
+        <div ngClass.lt-sm="hide-text">
+          <button mat-icon-button [matMenuTriggerFor]="userMenu" translate>
+            <mat-icon>person</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <mat-list>
+              <mat-list-item *ngIf="isLogin">
+                <button mat-menu-item translate>Logged in as <b>{{username}}</b></button>
+              </mat-list-item>
+              <mat-list-item *ngIf="isLogin">
+                <button mat-menu-item (click)="logout()" translate>Logout</button>
+              </mat-list-item>
+              <mat-list-item *ngIf="!isLogin">
+                <button mat-menu-item (click)="login()" translate>Login</button>
+              </mat-list-item>
+            </mat-list>
+          </mat-menu>
+        </div>
+        <button  mat-button (click)="addHouse()"><mat-icon >add</mat-icon><span ngClass.lt-sm="hide-text" translate>common.listHouse</span></button>
+        <!-- <span class="right-menu">List Property</span> -->
+      </mat-toolbar>
+      <div fxLayout="column" fxLayoutAlign="start stretch">
+      <div fxLayout="row" fxLayoutAlign="center stretch"
+      fxLayoutGap="10px">
+        <div fxFlex="5%" fxHide fxShow.gt-sm fxLayout="column" fxLayoutAlign="start stretch" class="right-side"></div>
+        <div fxFlex="20%" fxHide fxShow.gt-sm fxLayout="column"  fxLayoutAlign="start stretch" class="left-side">
+
+          <mat-card>
+            <mat-card-header>
+              <img mat-card-avatar src="assets/hapinistay-logo-border-white.png" alt="avatar image">
+              <mat-card-title><span translate>shell.hotPost</span></mat-card-title>
+              <mat-card-subtitle><span translate>shell.hotPost</span></mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+          <mat-card *ngFor="let house of houses">
+            <mat-card-header (click)="viewHouse(house)">
+              <img mat-card-avatar [src]="house.avatar" alt="avatar image">
+              <mat-card-title><span class="pointer-link">{{house.name}}</span></mat-card-title>
+              <mat-card-subtitle><span>{{house.displayAddress}}</span></mat-card-subtitle>
+            </mat-card-header>
+            
+            <mat-card-content>
+              <div fxLayout="column">
+                <slideshow #slideshow [imageUrls]="house.imageUrls"
+                [height]="'100px'" [minHeight]="'50px'"
+                [autoPlay]="true" [showDots]="true"
+                [showArrows]="true" [fullscreen]="false"></slideshow>
+              </div>
+              
+              <div fxLayout="column" fxLayoutGap="10px">
+                  <div *ngIf="house.available">
+                    <span class="fa-icons" ngClass.gt-sm="fa-36">
+                      <fa-icon [fixedWidth]="true" [icon]="['fas', 'bed']"></fa-icon>
+                    </span>
+                    <span ngClass.gt-sm="fa-36" class="fa-icons-text">{{house.available}}</span>
+                    <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>house.availableRoom</span>
+                  </div>
+                  <div *ngIf="house.minPrice">
+                    <span class="fa-icons" ngClass.gt-sm="fa-36">
+                      <fa-icon [fixedWidth]="true" [icon]="['fas', 'dollar-sign']"></fa-icon>
+                    </span>
+                    <span ngClass.gt-sm="fa-36" class="fa-icons-text">{{house.minPrice | number}}</span>
+                    <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>house.priceUnit</span>
+                  </div>
+                  <div *ngIf="house.lastUpdate">
+                    <span class="fa-icons" ngClass.gt-sm="fa-36">
+                      <fa-icon [fixedWidth]="true" [icon]="['fas', 'history']"></fa-icon>
+                    </span>
+                    <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>house.postedOn</span>
+                    <span ngClass.gt-sm="fa-36" class="fa-icons-text">{{ house.lastUpdate | date:'dd/MM/yyyy' }}</span>
+                  </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+        </div>
+        <div fxFlex.gt-sm="50%" class="full-width" fxLayout="column" fxLayoutAlign="start stretch">
+          <router-outlet></router-outlet>
+        </div>
+        <div fxFlex="20%" fxHide fxShow.gt-sm fxLayout="column" fxLayoutAlign="start stretch" class="right-side">
+            <mat-card>
+              <mat-card-header>
+                <img mat-card-avatar src="assets/hapinistay-logo-border-white.png" alt="avatar image">
+                <mat-card-title><span translate>listHouse.title</span></mat-card-title>
+                <mat-card-subtitle><span translate>listHouse.description</span></mat-card-subtitle>
+              </mat-card-header>
+              
+              <mat-card-content>
+                <div fxLayout="column" fxLayoutGap="10px">
+                  <div fxLayout="column" fxLayoutGap="10px">
+                    <div fxFlex fxLayoutGap="10px"><mat-icon aria-hidden="false">alarm_on</mat-icon> <span class="icon-text" translate>listHouse.fast</span></div>
+                    <div fxFlex fxLayoutGap="10px" ><mat-icon aria-hidden="false">accessibility</mat-icon><span class="icon-text" translate>listHouse.customer</span></div>
+                    <div fxFlex fxLayoutGap="10px" ><mat-icon aria-hidden="false">share</mat-icon><span class="icon-text" translate>listHouse.social</span></div>
+                    <div fxFlex fxLayoutGap="10px" ><mat-icon aria-hidden="false">face</mat-icon><span class="icon-text" translate>listHouse.support</span></div>
+                    <div fxFlex fxLayoutGap="10px" ><mat-icon aria-hidden="false">email</mat-icon><span class="icon-text" translate>common.email</span></div>
+                  </div>
+                </div>
+              </mat-card-content>
+              <mat-card-actions class="action-center">
+                <button mat-raised-button color="primary" (click)="addHouse()"><span translate>listHouse.addHouse</span></button>
+              </mat-card-actions>
+            </mat-card>
+        </div>
+        <div fxFlex="5%" fxHide fxShow.gt-sm fxLayout="column" fxLayoutAlign="start stretch" class="right-side"></div>
+          
+      </div>
+
+      <!-- Footer go here-->
+      <div id="footer" fxLayout="row" fxLayoutAlign="center start">
+        <div fxFlex fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="start center">
+            <h3 class="footer-title"><a class="footer-item link-no-underline"  href="#"><span translate>APP_NAME</span></a></h3>
+            <div class="footer-item"><span>&copy; 2019</span> <span translate>APP_NAME</span><span>. All rights reserved.</span>
+            </div>
+            <!-- <a class="footer-item"  href="#"><span translate>Term Conditions</span></a> -->
+            <div fxLayout="row" class="footer-item">
+                <a class="footer-item"  href="https://www.facebook.com/hapinistay"><span translate>Facebook</span></a>
+                <div class="divider"></div>
+                <a class="footer-item"  href="https://www.facebook.com/hapinistay"><span translate>Youtube</span></a>
+            </div>
+        </div>
+      </div>
+
+      </div>
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

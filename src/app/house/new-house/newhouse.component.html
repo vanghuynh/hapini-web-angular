@@ -1,0 +1,167 @@
+<div class="container">
+  <div *ngIf="house">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title><span translate>newhouse.title</span></mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="newHouseForm" (ngSubmit)="onSubmit()">
+        <div fxLayout='column'>
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.houseName</span></mat-label>
+            <input matInput [placeholder]="'newhouse.houseNamePlaceholder' | translate" formControlName="name">
+            <mat-error *ngIf="!newHouseForm.controls.name.valid">
+              <span translate>newhouse.houseNameRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.description</span> </mat-label>
+            <textarea matTextareaAutosize matInput [placeholder]="'newhouse.descriptionPlaceholder' | translate" formControlName="description"></textarea>
+            <mat-error *ngIf="!newHouseForm.controls.description.valid">
+              <span translate>newhouse.descriptionRequired</span>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.city</span></mat-label>
+            <mat-select [placeholder]="'newhouse.cityPlaceholder' | translate" formControlName="city">
+              <mat-option value=""><span translate>newhouse.city</span></mat-option>
+              <mat-option *ngFor="let city of cities" [value]="city.code" (click)="citySelect(city.code)">
+                {{city.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="!newHouseForm.controls.city.valid">
+              <span translate>newhouse.cityRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.district</span></mat-label>
+            <mat-select [placeholder]="'newhouse.districtPlaceholder' | translate" formControlName="district"
+              [disabled]="selectedCity == ''">
+              <mat-option value=""><span translate>newhouse.district</span></mat-option>
+              <mat-option *ngFor="let district of districts" [value]="district.code"
+                (click)="districtSelect(district.code)">
+                {{district.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="!newHouseForm.controls.district.valid">
+              <span translate>newhouse.districtRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.ward</span></mat-label>
+            <mat-select [placeholder]="'newhouse.wardPlaceholder' | translate" formControlName="ward"
+              [disabled]="selectedCity == '' || selectedDistrict == ''">
+              <mat-option value=""><span translate>newhouse.ward</span></mat-option>
+              <mat-option *ngFor="let ward of wards" [value]="ward.code" (click)="wardSelect(ward.code)">{{ward.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="!newHouseForm.controls.ward.valid">
+              <span translate>newhouse.wardRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.streetName</span></mat-label>
+            <input matInput [placeholder]="'newhouse.streetNamePlaceholder' | translate" formControlName="streetName">
+            <mat-error *ngIf="!newHouseForm.controls.streetName.valid">
+              <span translate>newhouse.streetNameRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.streetNumber</span></mat-label>
+            <input matInput [placeholder]="'newhouse.streetNumberPlaceholder' | translate" formControlName="streetNumber">
+            <mat-error *ngIf="!newHouseForm.controls.streetNumber.valid">
+              <span translate>newhouse.streetNumberRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.electricity</span></mat-label>
+            <input matInput [placeholder]="'newhouse.electricityPlaceholder' | translate" formControlName="electricity">
+            <mat-error *ngIf="!newHouseForm.controls.electricity.valid">
+              <span translate>newhouse.electricityRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.water</span></mat-label>
+            <input matInput [placeholder]="'newhouse.waterPlaceholder' | translate" formControlName="water">
+            <mat-error *ngIf="!newHouseForm.controls.water.valid">
+              <span translate>newhouse.waterRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.note</span></mat-label>
+            <textarea matTextareaAutosize matInput [placeholder]="'newhouse.notePlaceholder' | translate" formControlName="note"></textarea>
+          </mat-form-field>
+
+          <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="start start">
+            <mat-checkbox formControlName="flexTime"><span translate>house.flexTime</span></mat-checkbox>
+            <mat-checkbox formControlName="cookMeal"><span translate>house.cookMeal</span></mat-checkbox>
+            <mat-checkbox formControlName="packing" ><span translate>house.packing</span></mat-checkbox>
+            <mat-checkbox formControlName="wifi"><span translate>house.wifi</span></mat-checkbox>
+          </div>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.contactName</span></mat-label>
+            <input matInput [placeholder]="'newhouse.contactNamePlaceholder' | translate" formControlName="contactName">
+            <mat-error *ngIf="!newHouseForm.controls.contactName.valid">
+              <span translate>newhouse.contactNameRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.contactEmail</span></mat-label>
+            <input matInput [placeholder]="'newhouse.contactEmailPlaceholder' | translate" formControlName="contactEmail" >
+            <mat-error *ngIf="!newHouseForm.controls.contactEmail.valid">
+              <span translate>newhouse.contactEmailRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>newhouse.contactPhone</span></mat-label>
+            <input matInput [placeholder]="'newhouse.contactPhonePlaceholder' | translate" formControlName="contactPhone">
+            <mat-error *ngIf="!newHouseForm.controls.contactPhone.valid">
+              <span translate>newhouse.contactPhoneRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <image-upload [id]="house.id" type="HOUSE" (onImageUploadEvent)="onImageUpload($event)"
+            (onAllImageUploadedEvent)="onAllImageUploaded($event)"></image-upload>
+
+          <!-- <div *ngIf="house.images" fxLayout='row wrap' fxLayoutAlign="space-around">
+            <img *ngFor="let image of house.images" class="previewIcon" [src]="image.secure_url" alt="house image">
+          </div> -->
+
+          <image-list *ngIf="house.images" [images]="house.images"></image-list>
+
+          <div><mat-label><span translate>newhouse.markerHint</span></mat-label></div>
+          <div>
+            <agm-map [latitude]="lat" [longitude]="lng" 
+              mapTypeId='roadmap' [zoom]="zoom">
+              <agm-marker
+                [latitude]="lat"
+                [longitude]="lng"
+                [opacity]="1"
+                [markerDraggable]='true'
+                (dragEnd)="markerDragEnd($event)">
+                <agm-info-window>
+                  <span translate>newhouse.markerHint</span>
+                </agm-info-window>
+              </agm-marker>
+            </agm-map>
+          </div>
+
+          <mat-card-actions class="action-center" appearance="outline">
+            <button mat-raised-button color="primary" [disabled]="!newHouseForm.valid"><span translate>common.save</span></button>
+          </mat-card-actions>
+        </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

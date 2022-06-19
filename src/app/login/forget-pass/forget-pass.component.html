@@ -1,0 +1,40 @@
+<div class="container">
+  <div>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title><span translate>forgetpass.title</span></mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="forgetPasswordForm" (ngSubmit)="onSubmit()">
+        <div fxLayout='column'>
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>forgetpass.email</span></mat-label>
+            <input matInput [placeholder]="'forgetpass.emailPlaceholder' | translate" formControlName="username" required>
+            <mat-error *ngIf="!forgetPasswordForm.controls.username.valid">
+              <span translate>forgetpass.emailRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>forgetpass.phone</span></mat-label>
+            <input matInput [placeholder]="'forgetpass.phonePlaceholder' | translate" formControlName="phone" required>
+            <mat-error *ngIf="!forgetPasswordForm.controls.phone.valid">
+              <span translate>forgetpass.phoneRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <div>
+            <mat-checkbox  formControlName="agree" required></mat-checkbox>
+            <mat-label><span translate>forgetpass.agree</span></mat-label>
+          </div>
+
+          <mat-card-actions class="button-center" appearance="outline">
+            <button type="submit" mat-raised-button color="primary" [disabled]="!forgetPasswordForm.valid"><span translate>common.submit</span></button>
+          </mat-card-actions>
+          
+        </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

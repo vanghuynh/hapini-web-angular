@@ -1,0 +1,18 @@
+<div class="container">
+  <div>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{title}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div fxLayout='column'>
+          <mat-label>{{message}}</mat-label>
+          
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="action-center" appearance="outline">
+        <button mat-raised-button color="primary" (click)="goHome()"><span translate>confirm.home</span></button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

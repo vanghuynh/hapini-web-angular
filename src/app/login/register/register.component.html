@@ -1,0 +1,65 @@
+<div class="container">
+  <div *ngIf="user">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title><span translate>register.title</span></mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div fxLayout='column'>
+          
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>register.username</span></mat-label>
+            <input matInput [placeholder]="'register.usernamePlaceholder' | translate" formControlName="username">
+            <mat-error *ngIf="!userForm.controls.username.valid">
+              <span translate>register.usernameRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>register.password</span></mat-label>
+            <input matInput type="password" [placeholder]="'register.passwordPlaceholder' | translate" formControlName="password">
+            <mat-error *ngIf="!userForm.controls.password.valid">
+              <span translate>register.passwordRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>register.confirmPassword</span></mat-label>
+            <input matInput type="password" [placeholder]="'register.confirmPasswordPlaceholder' | translate" formControlName="confirmPassword">
+            <mat-error *ngIf="!userForm.controls.confirmPassword.valid">
+              <span translate>register.confirmPasswordRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>register.name</span></mat-label>
+            <input matInput [placeholder]="'register.namePlaceholder' | translate" formControlName="name">
+            <mat-error *ngIf="!userForm.controls.name.valid">
+              <span translate>register.nameRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label><span translate>register.phone</span></mat-label>
+            <input matInput [placeholder]="'register.phonePlaceholder' | translate" formControlName="phone">
+            <mat-error *ngIf="!userForm.controls.phone.valid">
+              <span translate>register.phoneRequired</span>
+            </mat-error>
+          </mat-form-field>
+
+          <div>
+            <mat-checkbox formControlName="agree"></mat-checkbox>
+            <mat-label><span translate>register.agree</span><a class="footer-item"  href="https://www.facebook.com/hapinistay"><span translate>register.term</span></a></mat-label>
+          </div>
+
+          <mat-card-actions class="button-center" appearance="outline">
+            <button type="submit" mat-raised-button color="primary" [disabled]="!userForm.valid"><span translate>register.submit</span></button>
+          </mat-card-actions>
+          
+        </div>
+      </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="container">
+    <mat-card *ngFor="let house of houses">
+      <mat-card-header>
+        <img mat-card-avatar src="assets/hapinistay-logo.png" alt="avatar image">
+        <mat-card-title>ID {{house.id}}: {{house.name}}</mat-card-title>
+        <mat-card-subtitle><span>{{house.displayAddress}}</span></mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <slideshow mat-card-image #slideshow [imageUrls]="house.imageUrls"
+        [height]="'400px'" [minHeight]="'200px'"
+        [autoPlay]="true" [showDots]="true"
+        [showArrows]="true" [fullscreen]="false"></slideshow>
+        <div fxLayout="column" fxLayoutGap="10px">
+            <div fxLayout="column" fxLayoutGap="10px">
+              <div class="multiline">{{house.description}}</div>
+              <div *ngIf="house.status && house.status == 'APPROVE'; then thenBlock else elseBlock; then thenBlock else elseBlock" ></div>
+              <ng-template #thenBlock><div><mat-icon ngClass.gt-sm="md-36" class="material-icons md-light">check_circle</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>house.validated</span></div></ng-template>
+              <ng-template #elseBlock><div><mat-icon ngClass.gt-sm="md-36" class="material-icons">remove_circle</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>house.pending</span></div></ng-template>
+    
+              <div fxLayout="row wrap" fxLayoutGap="10px">
+                <div *ngIf="house.policy && house.policy.flexTime"><mat-icon ngClass.gt-sm="md-36" class="material-icons">alarm_off</mat-icon> <span ngClass.gt-sm="md-36" class="icon-text" translate>house.flexTime</span></div>
+                <div *ngIf="house.policy && house.policy.cookMeal"><mat-icon ngClass.gt-sm="md-36" class="material-icons">local_dining</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>house.cookMeal</span></div>
+                <div *ngIf="house.policy && house.policy.packing"><mat-icon ngClass.gt-sm="md-36" class="material-icons">motorcycle</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>house.packing</span></div>
+                <div *ngIf="house.policy && house.policy.wifi"><mat-icon ngClass.gt-sm="md-36"class="material-icons">network_wifi</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>house.wifi</span></div>
+              </div>
+              <div *ngIf="house.contact && house.contact.phone"><mat-icon ngClass.gt-sm="md-36" class="material-icons">local_phone</mat-icon> <span ngClass.gt-sm="md-36" class="icon-text">{{house.contact.phone}}</span></div>
+              
+              <div *ngIf="house.available"><mat-icon ngClass.gt-sm="md-36" class="material-icons">home</mat-icon><span ngClass.gt-sm="md-36" class="icon-text">{{house.available}} </span><span ngClass.gt-sm="md-36" class="icon-text-np" translate>house.availableRoom</span></div>
+              <div *ngIf="!house.available"><mat-icon ngClass.gt-sm="md-36" class="material-icons">home</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>house.notAvailable</span></div>
+              
+              <div *ngIf="house.minPrice"><mat-icon ngClass.gt-sm="md-36" class="material-icons">attach_money</mat-icon><span ngClass.gt-sm="md-36" class="icon-text" translate>{{house.minPrice}}</span><span ngClass.gt-sm="md-36" class="icon-text-np" translate>house.priceUnit</span></div>
+              <div *ngIf="house.lastUpdate"><mat-icon ngClass.gt-sm="md-36" class="material-icons">update</mat-icon><span ngClass.gt-sm="md-36" class="icon-text-np" translate>house.postedOn</span><span ngClass.gt-sm="md-36" class="icon-text"> {{ house.lastUpdate | date:'dd/MM/yyyy' }}</span></div>
+            </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="action-center">
+        <button mat-button (click)="editHouse(house)"><span translate>common.edit</span></button>
+        <button mat-button (click)="viewHouse(house)"><span translate>common.view</span></button>
+        <button mat-button (click)="deleteHouse(house)">DELETE</button>
+        <button mat-raised-button color="primary" (click)="manageRooms(house)"><span translate>common.manageRoom</span></button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card *ngIf="isEmpty">
+      <mat-card-actions class="action-center">
+        <button mat-raised-button color="primary" (click)="addHouse()"><span translate>common.addHouse</span></button>
+      </mat-card-actions>
+    </mat-card>
+</div>

@@ -1,0 +1,113 @@
+<div *ngIf="room" class="container">
+  <mat-card>
+    <mat-card-header>
+      <img mat-card-avatar [src]="room.avatar" alt="avatar image">
+      <mat-card-title>{{room.name}}</mat-card-title>
+      <mat-card-subtitle *ngIf="room.available; then thenPrice else elsePrice"></mat-card-subtitle>
+      <ng-template #thenPrice><span class="price-available">{{room.price | number}} </span><span class="price-available" translate>room.priceUnit</span></ng-template>
+      <ng-template #elsePrice><span>{{room.price | number}} </span><span translate>room.priceUnit</span></ng-template>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div class="section-margin" fxLayout="column" >
+        <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+      </div>
+      <div class="section-margin" fxLayout="column" fxLayoutGap="10px">
+        <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start end">
+          <div *ngIf="room.available && room.status && room.status == 'APPROVE'; then thenBlock else elseBlock"></div>
+          <ng-template #thenBlock><span class="fa-icons fa-light" ngClass.gt-sm="fa-36">
+              <fa-icon [fixedWidth]="true" [icon]="['fas', 'globe-asia']"></fa-icon>
+            </span>
+            <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>room.public</span>
+          </ng-template>
+          <ng-template #elseBlock><span class="fa-icons" ngClass.gt-sm="fa-36">
+              <fa-icon [fixedWidth]="true" [icon]="['fas', 'ban']"></fa-icon>
+            </span>
+            <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>room.private</span>
+          </ng-template>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start end">
+          <div *ngIf="room.toilet && room.toilet == 'S'; then thenShare else elsePrivate"></div>
+          <ng-template #thenShare><span class="fa-icons" ngClass.gt-sm="fa-36">
+              <fa-icon [fixedWidth]="true" [icon]="['fas', 'toilet']"></fa-icon>
+            </span>
+            <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>room.toiletShare</span>
+          </ng-template>
+          <ng-template #elsePrivate><span class="fa-icons" ngClass.gt-sm="fa-36">
+              <fa-icon [fixedWidth]="true" [icon]="['fas', 'toilet']"></fa-icon>
+            </span>
+            <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>room.toiletPrivate</span>
+          </ng-template>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start end">
+            <div *ngIf="room.sex && room.sex == 'M'">
+              <span class="fa-icons" ngClass.gt-sm="fa-36">
+                <fa-icon [fixedWidth]="true" [icon]="['fas', 'male']"></fa-icon>
+              </span>
+              <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>room.male</span>
+            </div>
+            <div *ngIf="room.sex && room.sex == 'F'">
+              <span class="fa-icons" ngClass.gt-sm="fa-36">
+                <fa-icon [fixedWidth]="true" [icon]="['fas', 'female']"></fa-icon>
+              </span>
+              <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>room.female</span>
+            </div>
+            <div *ngIf="room.sex && room.sex == 'B'">
+              <span class="fa-icons" ngClass.gt-sm="fa-36">
+                <fa-icon [fixedWidth]="true" [icon]="['fas', 'restroom']"></fa-icon>
+              </span>
+              <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>room.maleorfemale</span>
+            </div>
+        </div>
+
+        <div *ngIf="room.area">
+          <span class="fa-icons" ngClass.gt-sm="fa-36">
+            <fa-icon [fixedWidth]="true" [icon]="['fas', 'square']"></fa-icon>
+          </span>
+          <span ngClass.gt-sm="fa-36" class="fa-icons-text">{{ room.area }}</span>
+          <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>room.square</span>
+        </div>
+
+        <div *ngIf="room.maxNumber">
+          <span class="fa-icons" ngClass.gt-sm="fa-36">
+            <fa-icon [fixedWidth]="true" [icon]="['fas', 'users']"></fa-icon>
+          </span>
+          <span ngClass.gt-sm="fa-36" class="fa-icons-text">{{ room.maxNumber }}</span>
+          <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>room.maxNumber</span>
+        </div>
+
+        <div *ngIf="room.lastUpdate">
+          <span class="fa-icons" ngClass.gt-sm="fa-36">
+            <fa-icon [fixedWidth]="true" [icon]="['fas', 'history']"></fa-icon>
+          </span>
+          <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>house.postedOn</span>
+          <span ngClass.gt-sm="fa-36" class="fa-icons-text">{{ room.lastUpdate | date:'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+
+      <div class="section-margin">
+        <span class="fa-icons" ngClass.gt-sm="fa-36">
+          <fa-icon [fixedWidth]="true" [icon]="['fas', 'list-alt']"></fa-icon>
+        </span>
+        <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>room.description</span>
+      </div>
+      <div fxLayout="row" class="multiline" ngClass.gt-sm="md-36">{{ room.description }}</div>
+
+      <div class="section-margin">
+        <span class="fa-icons" ngClass.gt-sm="fa-36">
+          <fa-icon [fixedWidth]="true" [icon]="['fas', 'comments']"></fa-icon>
+        </span>
+        <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>room.note</span>
+      </div>
+      <div fxLayout="row" class="multiline" ngClass.gt-sm="md-36">{{ room.note }}</div>
+
+    </mat-card-content>
+  </mat-card>
+  <!-- <mat-card>
+    <mat-card-actions class="action-center">
+      <button mat-button (click)="contactHouse()"><span translate>common.contact</span></button>
+    </mat-card-actions>
+  </mat-card> -->
+</div>

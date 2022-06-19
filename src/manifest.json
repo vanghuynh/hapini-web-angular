@@ -1,0 +1,14 @@
+{
+  "name": "hapini-stay-web",
+  "short_name": "hapini-stay-web",
+  "theme_color": "#488aff",
+  "background_color": "#488aff",
+  "scope": "/",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [{
+    "src": "assets/hapinistay-logo.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }]
+}

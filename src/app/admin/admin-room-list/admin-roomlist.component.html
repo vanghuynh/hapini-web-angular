@@ -1,0 +1,25 @@
+<div class="container">
+    <mat-card class="room-card" *ngFor="let room of rooms">
+      <mat-card-header>
+        <img mat-card-avatar src="{{room.avatar}}" alt="avatar image">
+        <mat-card-title>{{room.id}} - {{room.name}}</mat-card-title>
+        <mat-card-subtitle><span>{{room.displayAddress}}</span></mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <slideshow #slideshow [imageUrls]="room.imageUrls"
+        [height]="'200px'" [minHeight]="'100px'"
+        [autoPlay]="true" [showDots]="true"
+        [showArrows]="true" [fullscreen]="false"></slideshow>
+        <!-- <img class="room-image" mat-card-image [src]="room.avatar" alt="Photo of a Shiba Inu"> -->
+        <span>
+            {{room.description}}
+        </span>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="approveRoom(room)">APPROVE</button>
+        <button *ngIf="!room.available" mat-button (click)="enableRoom(room)">ENABLE</button>
+        <button *ngIf="room.available" mat-button (click)="disableRoom(room)">DISABLE</button>
+      </mat-card-actions>
+    </mat-card>
+</div>

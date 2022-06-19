@@ -1,0 +1,153 @@
+<div class="container" fxLayout="column" fxLayoutGap="5px">
+    <form novalidate (ngSubmit)="onSubmit()">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title><span translate>House Search</span></mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div fxLayout="column">
+              <mat-form-field appearance="outline">
+                <mat-label><span translate>house.city</span></mat-label>
+                <mat-select *ngIf="cities" [(value)]="selectedCity">
+                  <mat-option (click)="citySelect('')" value=""><span translate>common.all</span></mat-option>
+                  <mat-option *ngFor="let city of cities" [value]="city.code" (click)="citySelect(city.code)">
+                    {{city.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label><span translate>house.district</span></mat-label>
+                <mat-select [(value)]="selectedDistrict"
+                  [disabled]="selectedCity == ''">
+                  <mat-option value=""><span translate>common.all</span></mat-option>
+                  <mat-option *ngFor="let district of districts" [value]="district.code"
+                    (click)="districtSelect(district.code)">
+                    {{district.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div *ngIf="show" fxLayout="column">
+              <mat-form-field appearance="outline">
+                  <mat-label><span translate>house.filter</span></mat-label>
+                  <mat-select [(value)]="sortBy">
+                    <mat-option (click)="bestMatchSelect('')" value=""><span translate>common.all</span></mat-option>
+                    <!-- <mat-option value="Available"
+                      (click)="availableSelect('Available')">
+                      <span translate>house.available</span></mat-option> -->
+                    <mat-option value="Price"
+                      (click)="priceSelect('Price')">
+                      <span translate>house.lowPrice</span></mat-option>
+                    <mat-option value="Latest"
+                      (click)="latestSelect('Latest')">
+                      <span translate>house.latestPost</span></mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start center"> 
+                <a mat-icon-button (click)="toggle()">
+                  <mat-icon>{{buttonIcon}}</mat-icon>
+                </a>
+            </div>
+            <mat-card-actions class="search-action">
+              <button mat-raised-button color="primary" type="submit"><span translate>common.search</span></button>
+              <button mat-raised-button (click)="resetSearch()"><span translate>common.reset</span></button>
+            </mat-card-actions>
+            
+          </mat-card-content>
+        </mat-card>
+    </form>
+  
+    <mat-card *ngFor="let house of houses">
+      <mat-card-header class="pointer-link-normal" (click)="viewHouse(house)">
+        <img mat-card-avatar [src]="house.avatar" alt="avatar image">
+        <mat-card-title>{{house.name}}</mat-card-title>
+        <mat-card-subtitle><span class="address-text">{{house.displayAddress}}</span></mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <!-- <img mat-card-image [src]="house.avatar" alt="Photo of a Shiba Inu"> -->
+        <div fxLayout="column">
+          <slideshow #slideshow [imageUrls]="house.imageUrls"
+          [height]="'400px'" [minHeight]="'200px'"
+          [autoPlay]="false" [showDots]="true"
+          [showArrows]="true" [fullscreen]="false"></slideshow>
+        </div>
+        
+        <div fxLayout="column" fxLayoutGap="10px">
+          <div class="multiline section-margin">{{house.description}}</div>
+          <div *ngIf="house.status && house.status == 'APPROVE'">
+            <span class="fa-icons fa-light" ngClass.gt-sm="fa-36">
+              <fa-icon [fixedWidth]="true" [icon]="['fas', 'check-circle']"></fa-icon>
+            </span>
+            <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>house.available</span>
+          </div>
+
+          <div fxLayout="row wrap" fxLayoutGap="10px">
+            <div *ngIf="house.policy && house.policy.flexTime">
+              <span class="fa-icons" ngClass.gt-sm="fa-36">
+                <fa-icon [fixedWidth]="true" [icon]="['fas', 'clock']"></fa-icon>
+              </span>
+              <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>house.flexTime</span>
+            </div>
+            <div *ngIf="house.policy && house.policy.cookMeal">
+              <span class="fa-icons" ngClass.gt-sm="fa-36">
+                <fa-icon [fixedWidth]="true" [icon]="['fas', 'utensils']"></fa-icon>
+              </span>
+              <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>house.cookMeal</span>
+            </div>
+            <div *ngIf="house.policy && house.policy.packing">
+              <span class="fa-icons" ngClass.gt-sm="fa-36">
+                <fa-icon [fixedWidth]="true" [icon]="['fas', 'motorcycle']"></fa-icon>
+              </span>
+              <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>house.packing</span>
+            </div>
+            <div *ngIf="house.policy && house.policy.wifi">
+              <span class="fa-icons" ngClass.gt-sm="fa-36">
+                <fa-icon [fixedWidth]="true" [icon]="['fas', 'wifi']"></fa-icon>
+              </span>
+              <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>house.wifi</span>
+            </div>
+          </div>
+          <div *ngIf="house.contact && house.contact.phone">
+            <span class="fa-icons" ngClass.gt-sm="fa-36">
+              <fa-icon [fixedWidth]="true" [icon]="['fas', 'phone']"></fa-icon>
+            </span>
+            <a class="link-no-underline pointer-link" href="{{'tel:'+house.contact.phone}}"><span ngClass.gt-sm="fa-36" class="fa-icons-text">{{house.contact.phone}}</span></a>
+          </div>
+          <div *ngIf="house.available">
+            <span class="fa-icons" ngClass.gt-sm="fa-36">
+              <fa-icon [fixedWidth]="true" [icon]="['fas', 'bed']"></fa-icon>
+            </span>
+            <span ngClass.gt-sm="fa-36" class="fa-icons-text">{{house.available}}</span>
+            <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>house.availableRoom</span>
+          </div>
+          <div *ngIf="house.minPrice">
+            <span class="fa-icons" ngClass.gt-sm="fa-36">
+              <fa-icon [fixedWidth]="true" [icon]="['fas', 'dollar-sign']"></fa-icon>
+            </span>
+            <span ngClass.gt-sm="fa-36" class="fa-icons-text">{{house.minPrice | number}}</span>
+            <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>house.priceUnit</span>
+          </div>
+          <div *ngIf="house.lastUpdate">
+            <span class="fa-icons" ngClass.gt-sm="fa-36">
+              <fa-icon [fixedWidth]="true" [icon]="['fas', 'history']"></fa-icon>
+            </span>
+            <span ngClass.gt-sm="fa-36" class="fa-icons-text" translate>house.postedOn</span>
+            <span ngClass.gt-sm="fa-36" class="fa-icons-text">{{ house.lastUpdate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="action-center">
+        <button mat-button (click)="viewHouse(house)"><span translate>common.view</span></button>
+        <button mat-button (click)="contactHouse(house)"><span translate>common.contact</span></button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-paginator [length]="length"
+              [pageSize]="pageSize"
+              (page)="pageEvent($event)"
+              hidePageSize="true"
+              itemsPerPageLabel="pane"
+              showFirstLastButtons="true">
+    </mat-paginator>
+</div>

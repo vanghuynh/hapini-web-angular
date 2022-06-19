@@ -1,0 +1,78 @@
+<div class="container" fxLayout="column" fxLayoutGap="5px">
+    <form novalidate (ngSubmit)="onSubmit()">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>House Search</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div fxLayout="column">
+              <mat-form-field appearance="outline">
+                <mat-label>City</mat-label>
+                <mat-select placeholder="Select city" [(value)]="selectedCity">
+                  <mat-option (click)="citySelect('')" value="">All</mat-option>
+                  <mat-option *ngFor="let city of cities" [value]="city.code" (click)="citySelect(city.code)">
+                    {{city.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>District</mat-label>
+                <mat-select placeholder="Select district" [(value)]="selectedDistrict"
+                  [disabled]="selectedCity == ''">
+                  <mat-option value="">All</mat-option>
+                  <mat-option *ngFor="let district of districts" [value]="district.code"
+                    (click)="districtSelect(district.code)">
+                    {{district.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-card-actions class="search-action">
+                <button mat-raised-button color="primary" type="submit">Submit</button>
+                <button mat-raised-button color="accent" (click)="resetSearch()">Reset</button>
+              </mat-card-actions>
+            </div>
+          </mat-card-content>
+        </mat-card>
+    </form>
+  
+    <mat-card *ngFor="let house of houses">
+      <mat-card-header (click)="viewHouse(house)">
+        <img mat-card-avatar [src]="house.avatar" alt="avatar image">
+        <mat-card-title>ID {{house.id}}: {{house.name}}</mat-card-title>
+        <mat-card-subtitle><span>{{house.displayAddress}}</span></mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <!-- <img mat-card-image [src]="house.avatar" alt="Photo of a Shiba Inu"> -->
+        <div fxLayout="column">
+          <slideshow #slideshow [imageUrls]="house.imageUrls"
+          [height]="'400px'" [minHeight]="'200px'"
+          [autoPlay]="true" [showDots]="true"
+          [showArrows]="true" [fullscreen]="false"></slideshow>
+        </div>
+        
+        <div fxLayout="column" fxLayoutGap="10px">
+          <span>
+            {{house.description}}
+          </span>
+          <div fxLayout="row wrap" fxLayoutGap="10px">
+            <div fxFlex fxLayoutGap="10px" *ngIf="house.policy && house.policy.flexTime"><mat-icon ngClass.gt-sm="md-36" class="material-icons" aria-hidden="false" aria-label="Flexible Time">alarm_off</mat-icon> <span class="icon-text" translate>house.flexTime</span></div>
+            <div fxFlex fxLayoutGap="10px" *ngIf="house.policy && house.policy.cookMeal"><mat-icon ngClass.gt-sm="md-36" class="material-icons" aria-hidden="false" aria-label="Cooking">local_dining</mat-icon><span class="icon-text" translate>house.cookMeal</span></div>
+            <div fxFlex fxLayoutGap="10px" *ngIf="house.policy && house.policy.packing"><mat-icon ngClass.gt-sm="md-36" class="material-icons" aria-hidden="false" aria-label="Packing">motorcycle</mat-icon><span class="icon-text" translate>house.packing</span></div>
+            <div fxFlex fxLayoutGap="10px" *ngIf="house.policy && house.policy.wifi"><mat-icon ngClass.gt-sm="md-36"class="material-icons" aria-hidden="false" aria-label="Wifi">network_wifi</mat-icon><span class="icon-text" translate>house.wifi</span></div>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button (click)="approveHouse(house)">APPROVE</button>
+        <button mat-button (click)="viewHouse(house)"><span translate>common.view</span></button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-paginator [length]="length"
+              [pageSize]="pageSize"
+              (page)="pageEvent($event)"
+              hidePageSize="true"
+              itemsPerPageLabel="pane"
+              showFirstLastButtons="true">
+    </mat-paginator>
+</div>

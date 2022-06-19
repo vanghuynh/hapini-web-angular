@@ -1,0 +1,91 @@
+
+@import "src/theme/theme-variables";
+
+:host {
+  display: flex;
+  flex: 1;
+}
+
+.mat-sidenav {
+  min-width: 270px;
+  max-width: 28%;
+}
+
+.has-border {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.mat-list {
+  padding-top: 0;
+}
+
+.mat-list-item {
+  text-decoration: none;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.menu-button {
+  margin-right: 1rem;
+}
+
+.back-button {
+  margin-right: 10px;
+}
+
+.right-menu{
+  margin-right: 1rem;
+}
+
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox. 
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.left-side{ 
+  padding-top: 1em;
+}
+
+.right-side{
+  padding-top: 1em;
+}
+
+.row-container{
+  text-align: center;
+}
+
+/* Footer CSS */
+#footer {
+  background: mat-color($app-primary);
+}
+#footer{
+}
+
+#footer .footer-title{
+  color: white;
+}
+
+#footer .footer-item{
+  color: white;
+}
+
+.header-title{
+  color: white;
+}
+
+.divider{
+  border-right: 2px solid white;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.hide-text{
+  display: none;
+}
+
+.full-width{
+  width: 100%;
+}

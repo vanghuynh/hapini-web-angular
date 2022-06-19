@@ -1,0 +1,62 @@
+<div fxLayout='column'>
+  <ngfFormData [files]="files" postName="file" [(FormData)]="sendableFormData"></ngfFormData>
+
+  <ngfUploadStatus [(percent)]="progress" [httpEvent]="httpEvent"></ngfUploadStatus>
+
+  <div [hidden]="uploadingProgress" ngfDrop multiple="1" selectable="1" [(files)]="files" accept="image/*"
+    class="my-drop-zone" (filesChange)="lastFileAt=getDate()" [fileDropDisabled]="uploadingProgress"
+    [selectable]="!uploadingProgress">
+    <span>{{selectImageText}}</span>
+  </div>
+
+  <table *ngIf="files && files.length > 0" class="table">
+    <thead>
+      <tr>
+        <th class="left"><span translate>{{imageText}}</span></th>
+        <th><span translate>{{typeText}}</span></th>
+        <th><span translate>{{sizeText}}</span></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of files;let i=index">
+        <td>
+          <div *ngIf="['image/gif','image/png','image/jpeg'].indexOf(item.type)>=0">
+            <div class="previewIcon" [ngfBackground]="item"></div>
+          </div>
+        </td>
+        <td class="center">
+          <!-- <strong>{{ item.name }}</strong> -->
+          {{ item.type }}
+        </td>
+        <td nowrap class="center">
+          {{ item.size/1024/1024 | number:'.2' }} MB
+        </td>
+        <td nowrap class="center">
+          <button *ngIf="!uploadFinished" type="button" class="btn btn-danger btn-xs" (click)="files.splice(i,1)">
+            <mat-icon aria-hidden="false" aria-label="Wifi">delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="uploadingProgress">
+    <div>
+      <mat-progress-bar mode="determinate" [value]="uploadingProgress"></mat-progress-bar>
+    </div>
+  </div>
+
+  <mat-card-actions fxLayout fxLayoutWrap fxLayoutGap="5px">
+    <button mat-raised-button color="primary" fxFlex="calc(15%-5px)" type="button" class="btn btn-success btn-s"
+      (click)="uploadFiles(files)" [disabled]="!files.length || uploadFinished">
+      <span translate>{{uploadButtonText}}</span>
+    </button>
+
+    <!-- <button mat-raised-button fxFlex="calc(15%-5px)" type="button" class="btn btn-danger btn-s"
+      (click)="files.length=0" [disabled]="!files.length || uploadFinished">
+      Remove all
+    </button> -->
+  </mat-card-actions>
+
+</div>

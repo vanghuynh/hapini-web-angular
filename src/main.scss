@@ -1,0 +1,96 @@
+/*
+ * Entry point of global application style.
+ * Component-specific style should not go here and be included directly as part of the components.
+ */
+
+// Theme variables, must be included before the libraries to allow overriding defaults
+@import "theme/theme-variables";
+
+// 3rd party libraries
+@import "~material-design-icons-iconfont/dist/fonts/material-icons.css";
+
+// Angular Material custom theme
+// The mixins below must be included once so we separated them from the variables
+@import "~@angular/material/theming";
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($app-theme);
+
+// Theme customization
+@import "theme/theme";
+
+@import "theme/material-icon-style.scss";
+
+//for https://www.npmjs.com/package/ngx-gallery
+@import "~@angular/material/prebuilt-themes/indigo-pink.css"; // your theme
+
+.mat-sidenav-container, .mat-sidenav-content, .mat-tab-body-content {
+    transform: none !important;
+}
+
+.previewIcon{
+    width:50px;
+    height:50px;
+    background-size:cover;
+    background-repeat:no-repeat;
+}
+
+.action-center{
+    text-align: center;
+}
+
+.multiline{
+    white-space: pre-wrap;
+}
+
+.price-available{
+    color: mat-color($app-primary);
+}
+
+.pointer-link{
+    cursor: pointer;
+    color: mat-color($app-primary);
+}
+
+.pointer-link-normal{
+    cursor: pointer;
+}
+
+.link-no-underline{
+    text-decoration: none;
+}
+
+.container {
+    padding-top: 1em;
+}
+
+.section-margin{
+    margin-top: 1em;
+}
+
+.address-text{
+    color: black;
+}
+
+.header-text{
+    font-size: 1.5em;
+}
+.header-description{
+    color:mat-color($app-primary);
+    font-size: 1em;
+}
+
+.header-text.large-text{
+    font-size: 2em;
+}
+
+.header-description.large-text{
+    font-size: 1.5em;
+}
